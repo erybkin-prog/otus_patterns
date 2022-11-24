@@ -21,7 +21,7 @@ jobs:
       run: cmake --build .
 
     - name: Test
-      working-directory: ${{runner.workspace}}/homework1/build
+      working-directory: ${{runner.workspace}}/homework1/build/tests
       run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
 
     - name: Upload test results
