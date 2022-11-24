@@ -11,22 +11,22 @@ jobs:
         shell: bash
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Configure CMake
-      run: cmake -S $GITHUB_WORKSPACE/homework1 -B ${{runner.workspace}}/build
+      run: cmake -S $GITHUB_WORKSPACE/homework1 -B ${{runner.workspace}}/homework1/build
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/homework1/build
       run: cmake --build .
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/homework1/build
       run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
 
     - name: Upload test results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: test_results_xml
-        path: ${{runner.workspace}}/build/test-results/**/*.xml
+        path: ${{runner.workspace}}/homework1/build/test-results/**/*.xml
