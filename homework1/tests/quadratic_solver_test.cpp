@@ -142,3 +142,8 @@ TEST(solve, coeff_c_is_abnormal)
         result = QuadraticSolver::solve(1.0, 2.0, -0.0);
     );
 }
+
+TEST(solve, failed)
+{
+    FAIL();
+}
