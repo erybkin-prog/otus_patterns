@@ -1,0 +1,32 @@
+name: CMake Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      run: cmake -S $GITHUB_WORKSPACE/homework1 -B ${{runner.workspace}}/homework1/build
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/homework1/build
+      run: cmake --build .
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/homework1/build/tests
+      run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: test_results_xml
+        path: ${{runner.workspace}}/homework1/build/tests/test-results/*.xml
